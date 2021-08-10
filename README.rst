@@ -7,10 +7,11 @@ who don't know sql can access the data they need in a user friendly way.
 
 Features
 --------
-- store database info in jsons --> DatabaseInfo class will use JSON data to cache a DatabaseInfo object
+- Store database info in jsons --> DatabaseInfo class will use JSON data to cache a DatabaseInfo object
 example jsons:
 
-tableInfo = {
+tableInfo = 
+{
     'climatic':                                       
     {                                                 
         'temporal': True,
@@ -33,7 +34,9 @@ tableInfo = {
         'columns':['staid','lat','lng']
     }
 }
-dataCategories = {
+
+dataCategories = 
+{
     'Streamflow': {
         'streamflow':['streamflow']
     },
