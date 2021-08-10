@@ -10,7 +10,7 @@ Features
 - Store database info in jsons --> DatabaseInfo class will use JSON data to cache a DatabaseInfo object
 example jsons:
 
-tableInfo = 
+``tableInfo = 
 {
     'climatic':                                       
     {                                                 
@@ -52,7 +52,7 @@ dataCategories =
     'Wind':{
         'climatic': ['th','vs']
     }
-}
+}``
 
 Credits
 -------
