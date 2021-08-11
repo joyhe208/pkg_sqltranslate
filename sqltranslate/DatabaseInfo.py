@@ -29,7 +29,6 @@ class DatabaseTemporalTable(DatabaseTable):
 #also will reduce processing time for SQL Translate as it can access from a cache
 class DatabaseInfo:
     def __init__(self, tableInfo, dataCategories=None):
-        #add letter classifier
         self.tables = {}
         for table in tableInfo:
             self.tables[table] = DatabaseTemporalTable(table,tableInfo[table]) if tableInfo[table]['temporal'] else DatabaseTable(table,tableInfo[table])
@@ -71,6 +70,9 @@ class DatabaseInfo:
                 'tables': tableList,
                 'commonColumns':commonColumns}
 
+    def getCategories(self,categories):
+        return self.dataCategories
+        
     def getRowClassifierColumns(self,tables):
         return list(map(lambda table: table+"."+ self.tables[table].getRowClassifier().upper(),tables))
 

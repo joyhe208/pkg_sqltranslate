@@ -4,7 +4,7 @@
 
 import pytest
 from click.testing import CliRunner
-from sqltranslate import sqltranslate
+from sqltranslate.sqltranslate import *
 from sqltranslate import cli
 from sqltranslate.DatabaseInfo import *
 
@@ -80,8 +80,35 @@ def test_databaseinfo_columnlist():
 def test_databaseinfo_rowclassifiers():
     global HDDatabase
     result = HDDatabase.getRowClassifierColumns(['climatic','streamflow'])
-    print(result)
 
 def test_databaseinfo_datetime():
     global HDDatabase
     result = HDDatabase.getDateTimeColumns(['climatic','streamflow','stations'])
+
+def test_sqltranslate():
+    global HDDatabase
+    param1 = {
+        'categorical':False,
+        'columnList':['tmmx','tmmn','streamflow','pet']
+    }
+    SQLTran1 = SQLTranslate(HDDatabase,param1)
+    param2 = {
+        'categorical':True,
+        'categories':["Temperature","Streamflow"],
+    }
+    SQLTran2 = SQLTranslate(HDDatabase,param2)
+
+def test_sqltranslate_agg():
+    global HDDatabase
+    param1 = {'categorical':False,
+    'columnList':['tmmx','tmmn','streamflow','pet'],
+    'aggregate':['avg','avg','sum','avg']
+    }
+    SQLTran1 = SQLTranslateAggregate(HDDatabase,param1)
+    param2 =  { 
+    'categorical':True,
+    'categories':['Temperature','Streamflow','Humidity'],
+    'aggregate':['avg','sum','avg']
+    }
+    SQLTran2 = SQLTranslateAggregate(HDDatabase,param2)
+    
