@@ -89,7 +89,17 @@ def test_sqltranslate():
     global HDDatabase
     param1 = {
         'categorical':False,
-        'columnList':['tmmx','tmmn','streamflow','pet']
+        'columnList':['tmmx','tmmn','streamflow','pet'],
+        'filters': {
+            'tmmx': {
+                'type':'range',
+                'values': [150,160]
+            },
+            'staid': {
+                'type':'equal',
+                'values':[1,2]
+            }
+        }
     }
     SQLTran1 = SQLTranslate(HDDatabase,param1)
     param2 = {
@@ -97,6 +107,12 @@ def test_sqltranslate():
         'categories':["Temperature","Streamflow"],
     }
     SQLTran2 = SQLTranslate(HDDatabase,param2)
+    param3 = {
+        'categorical':False,
+        'columnList':['lat','lng']
+    }
+    SQLTran3 = SQLTranslate(HDDatabase,param3)
+    print(SQLTran3)
 
 def test_sqltranslate_agg():
     global HDDatabase
@@ -112,3 +128,33 @@ def test_sqltranslate_agg():
     }
     SQLTran2 = SQLTranslateAggregate(HDDatabase,param2)
     
+def test_sqltranslate_tmp():
+    global HDDatabase 
+    param1 = {   'categorical':False,
+    'columnList':['tmmx','tmmn','streamflow','pet'],
+    'aggregate':['avg','avg','sum','avg'],
+    'dateRange':['01-01-2004','01-01-2006'],
+    'aggregateBy':'year'
+    }
+    SQLTran1 = SQLTranslateTemporal(HDDatabase, param1)
+    param2 = {   'categorical':False,
+    'columnList':['tmmx','tmmn','streamflow','pet'],
+    'aggregate':['avg','avg','sum','avg'],
+    'dateRange':['01-01-2004','01-01-2006'],
+    'aggregateBy':'month'
+    }
+    SQLTran2 = SQLTranslateTemporal(HDDatabase, param2)
+    param3 = {   'categorical':False,
+    'columnList':['tmmx','tmmn','streamflow','pet'],
+    'aggregate':['avg','avg','sum','avg'],
+    'dateRange':['01-01-2004','01-01-2006'],
+    'aggregateBy':'day'
+    }
+    SQLTran3 = SQLTranslateTemporal(HDDatabase, param3)
+    param4 = {   'categorical':True,
+    'categories': ['Temperature','Streamflow'],
+    'aggregate':['avg','sum'],
+    'dateRange':['01-01-2004','01-01-2006'],
+    'aggregateBy':'year'
+    }
+    SQLTran4 = SQLTranslateTemporal(HDDatabase, param4)
