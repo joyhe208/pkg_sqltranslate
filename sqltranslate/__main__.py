@@ -1,8 +1,7 @@
 import os
 from os import path
 import sys
-import DatabaseInfo
-from DatabaseInfo import *
+from sqltranslate.DatabaseInfo import DatabaseInfo
 import json
 import pickle
 
@@ -43,5 +42,6 @@ def getDBObj():
         with open("DatabaseInfoCache","rb") as f:
             f.seek(0)
             dbInfo = pickle.load(f)
+    return dbInfo
 
 

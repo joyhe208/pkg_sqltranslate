@@ -7,6 +7,7 @@ from click.testing import CliRunner
 from sqltranslate.sqltranslate import *
 from sqltranslate import cli
 from sqltranslate.DatabaseInfo import *
+#from sqltranslate.__main__ import *
 
 @pytest.fixture
 def response():
@@ -68,22 +69,23 @@ def test_databaseinfo_constructor():
     }
     global HDDatabase
     HDDatabase = DatabaseInfo(tableInfo,dataCategories)
-
-def test_databaseinfo_categories():
-    global HDDatabase
-    result = HDDatabase.getColumnsAndTablesFromCategories(['Temperature','Streamflow'])
     
-def test_databaseinfo_columnlist():
-    global HDDatabase
-    result = HDDatabase.getColumnsAndTablesFromColumnList(['tmmx','tmmn','streamflow','pet'])
 
-def test_databaseinfo_rowclassifiers():
-    global HDDatabase
-    result = HDDatabase.getRowClassifierColumns(['climatic','streamflow'])
+# def test_databaseinfo_categories():
+#     global HDDatabase
+#     result = HDDatabase.getColumnsAndTablesFromCategories(['Temperature','Streamflow'])
+    
+# def test_databaseinfo_columnlist():
+#     global HDDatabase
+#     result = HDDatabase.getColumnsAndTablesFromColumnList(['tmmx','tmmn','streamflow','pet'])
 
-def test_databaseinfo_datetime():
-    global HDDatabase
-    result = HDDatabase.getDateTimeColumns(['climatic','streamflow','stations'])
+# def test_databaseinfo_rowclassifiers():
+#     global HDDatabase
+#     result = HDDatabase.getRowClassifierColumns(['climatic','streamflow'])
+
+# def test_databaseinfo_datetime():
+#     global HDDatabase
+#     result = HDDatabase.getDateTimeColumns(['climatic','streamflow','stations'])
 
 def test_sqltranslate():
     global HDDatabase
@@ -112,19 +114,20 @@ def test_sqltranslate():
         'columnList':['lat','lng']
     }
     SQLTran3 = SQLTranslate(HDDatabase,param3)
-    print(SQLTran3)
 
 def test_sqltranslate_agg():
     global HDDatabase
     param1 = {'categorical':False,
     'columnList':['tmmx','tmmn','streamflow','pet'],
-    'aggregate':['avg','avg','sum','avg']
+    'aggregate':{'tmmx':'avg','tmmn':'avg','streamflow':'sum','pet':'avg'},
+    'filters':{}
     }
     SQLTran1 = SQLTranslateAggregate(HDDatabase,param1)
     param2 =  { 
     'categorical':True,
     'categories':['Temperature','Streamflow','Humidity'],
-    'aggregate':['avg','sum','avg']
+    'aggregate':{'Temperature':'avg','Streamflow':'sum','Humidity':'avg'},
+    'filters':{}
     }
     SQLTran2 = SQLTranslateAggregate(HDDatabase,param2)
     
@@ -132,28 +135,28 @@ def test_sqltranslate_tmp():
     global HDDatabase 
     param1 = {   'categorical':False,
     'columnList':['tmmx','tmmn','streamflow','pet'],
-    'aggregate':['avg','avg','sum','avg'],
+    'aggregate':{'tmmx':'avg','tmmn':'avg','streamflow':'sum','pet':'avg'},
     'dateRange':['01-01-2004','01-01-2006'],
     'aggregateBy':'year'
     }
     SQLTran1 = SQLTranslateTemporal(HDDatabase, param1)
     param2 = {   'categorical':False,
     'columnList':['tmmx','tmmn','streamflow','pet'],
-    'aggregate':['avg','avg','sum','avg'],
+    'aggregate':{'tmmx':'avg','tmmn':'avg','streamflow':'sum','pet':'avg'},
     'dateRange':['01-01-2004','01-01-2006'],
     'aggregateBy':'month'
     }
     SQLTran2 = SQLTranslateTemporal(HDDatabase, param2)
     param3 = {   'categorical':False,
     'columnList':['tmmx','tmmn','streamflow','pet'],
-    'aggregate':['avg','avg','sum','avg'],
+    'aggregate':{'tmmx':'avg','tmmn':'avg','streamflow':'sum','pet':'avg'},
     'dateRange':['01-01-2004','01-01-2006'],
     'aggregateBy':'day'
     }
     SQLTran3 = SQLTranslateTemporal(HDDatabase, param3)
     param4 = {   'categorical':True,
     'categories': ['Temperature','Streamflow'],
-    'aggregate':['avg','sum'],
+    'aggregate':{'Temperature':'avg','Streamflow':'sum'},
     'dateRange':['01-01-2004','01-01-2006'],
     'aggregateBy':'year'
     }

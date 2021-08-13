@@ -50,13 +50,14 @@ class DatabaseInfo:
 
     def getColumnsAndTablesFromCategories(self,categories):
         columnList = []
-        tableList = []
+        tableList = set()
         for category in categories:
             for table, items in self.dataCategories[category].items():
-                tableList.append(table)
+                tableList.add(table)
                 columnList.extend(list(map(lambda columnName: table+"." + columnName.upper(), items)))
         tablePairs = [tablePair for tablePair in self.commonColumns.keys() if (tablePair[0] in tableList) and (tablePair[1] in tableList)]
         commonColumns = list(map(lambda tablePair: (tablePair[0] + "." + self.commonColumns[tablePair], tablePair[1] + "." + self.commonColumns[tablePair]), tablePairs))
+        columnList = list(set(columnList))
         return {'columns': columnList,
                 'tables': tableList,
                 'commonColumns':commonColumns}
@@ -72,7 +73,7 @@ class DatabaseInfo:
 
     def getCategories(self,categories):
         return self.dataCategories
-        
+
     def getRowClassifierColumns(self,tables):
         return list(map(lambda table: table+"."+ self.tables[table].getRowClassifier().upper(),tables))
 
