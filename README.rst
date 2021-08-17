@@ -10,16 +10,16 @@ Features
 
 DatabaseInfo required dictionaries:
 
-tableInfo = 
-{
-    'climatic':                                       
-    {                                                 
-        'temporal': True,
-        'dateCol': 'day',                          
-        'classifier': 'staid',
-        'columns': ['tmmx','tmmn','pr','pet','vpd',
-        'rmax','rmin','th','vs','day','staid']
-    },
+|tableInfo = 
+|{
+    |'climatic':                                       
+    |{                                                 
+        |'temporal': True,
+        |'dateCol': 'day',                          
+        |'classifier': 'staid',
+        |'columns': ['tmmx','tmmn','pr','pet','vpd',
+        |'rmax','rmin','th','vs','day','staid']
+    |},
     'streamflow':                                     
     {                                                 
         'temporal': True,
