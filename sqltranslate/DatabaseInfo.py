@@ -38,7 +38,7 @@ class DatabaseInfo:
         for table in tableInfo:
             self.generateColumnChoices(table)
         self.temporalDataTables = [table for table in tableInfo if tableInfo[table]['temporal']]
-    
+
     def generateColumnChoices(self,table):
         for column in self.tables[table].getColumns():
             if(column in self.columnChoices):
@@ -71,7 +71,7 @@ class DatabaseInfo:
                 'tables': tableList,
                 'commonColumns':commonColumns}
 
-    def getCategories(self,categories):
+    def getCategories(self):
         return self.dataCategories
 
     def getRowClassifierColumns(self,tables):

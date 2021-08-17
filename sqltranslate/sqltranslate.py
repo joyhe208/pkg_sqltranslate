@@ -1,5 +1,6 @@
 """Main module."""
 from itertools import repeat, combinations
+
 class SQLTranslate:
     def __init__(self,databaseInfo,params):
         self.params = params
@@ -39,7 +40,7 @@ class SQLTranslate:
         return ""
 
     def command(self):
-        return '\n'.join([self.select(),self.fromTables(),self.on(),self.where()])
+        return '\n'.join([string for string in [self.select(),self.fromTables(),self.on(),self.where()] if len(string)])
 
     def __str__(self):
         return self.command()
@@ -69,7 +70,7 @@ class SQLTranslateAggregate(SQLTranslate):
         return "GROUP BY " + ", ".join(self.groupByCols) 
 
     def command(self):
-        return '\n'.join([super().command(), self.groupBy()])
+        return '\n'.join(string for string in [super().command(), self.groupBy()] if len(string))
 
 class SQLTranslateTemporal(SQLTranslateAggregate):
     def __init__(self,databaseInfo,params):
@@ -95,7 +96,8 @@ class SQLTranslateTemporal(SQLTranslateAggregate):
 
     def where(self):
         dateCol = self.databaseInfo.getDateTimeColumns(self.selectedTables)[0]
-        self.filters.append(f"({dateCol} BETWEEN DATE(\"{self.params['dateRange'][0]}\") AND DATE(\"{self.params['dateRange'][1]}\"))")
+        if('dateRange' in self.params and len(self.params['dateRange'])):
+            self.filters.append(f"({dateCol} BETWEEN DATE(\"{self.params['dateRange'][0]}\") AND DATE(\"{self.params['dateRange'][1]}\"))")
         return super().where()
 
     def groupBy(self):
