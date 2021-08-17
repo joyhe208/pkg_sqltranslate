@@ -12,24 +12,26 @@ DatabaseInfo required dictionaries:
 tableInfo = 
 ```json
 {
-    'climatic': {
-        'temporal': True,
-        'dateCol': 'day',
-        'classifier': 'staid',
-        'columns': ['tmmx', 'tmmn', 'pr', 'pet', 'vpd',
-            'rmax', 'rmin', 'th', 'vs', 'day', 'staid'
-        ]
+    "climatic":                                       
+    {                                                 
+        "temporal": 1,
+        "dateCol": "day",                          
+        "classifier": "staid",
+        "columns": ["tmmx","tmmn","pr","pet","vpd",
+        "rmax","rmin","th","vs","day","staid"]
     },
-    'streamflow': {
-        'temporal': True,
-        'dateCol': 'date',
-        'classifier': 'staid',
-        'columns': ['streamflow', 'date', 'staid']
+    "streamflow":                                     
+    {                                                 
+        "temporal": 1,
+        "dateCol": "date",                             
+        "classifier":"staid",
+        "columns":["streamflow","date","staid"]
     },
-    'stations': {
-        'temporal': False,
-        'classifier': 'staid',
-        'columns': ['staid', 'lat', 'lng']
+    "stations":                                       
+    {
+        "temporal": 0,
+        "classifier":"staid",
+        "columns":["staid","lat","lng"]
     }
 }
 ```
@@ -37,20 +39,20 @@ tableInfo =
 dataCategories = 
 ```json
 {
-   'Streamflow': {
-        'streamflow': ['streamflow']
+    "Streamflow": {
+        "streamflow":["streamflow"]
     },
-    Temperature ':{
-        'climatic': ['tmmx', 'tmmn']
+   "Temperature":{
+        "climatic": ["tmmx","tmmn"]
     },
-    'Precipitation': {
-        'climatic': ['pr']
+    "Precipitation":{
+        "climatic": ["pr"]
     },
-    'Humidity': {
-        'climatic': ['pet', 'vpd', 'rmax', 'rmin']
+    "Humidity": {
+        "climatic": ["pet", "vpd","rmax","rmin"]
     },
-    'Wind': {
-        'climatic': ['th', 'vs']
+    "Wind":{
+        "climatic": ["th","vs"]
     }
 }
 ```
