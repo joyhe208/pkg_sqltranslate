@@ -1,5 +1,11 @@
 """Main module."""
 from itertools import repeat, combinations
+import DatabaseInfo
+from DatabaseInfo import *
+import __main__
+from __main__ import *
+
+
 
 class SQLTranslate:
     def __init__(self,databaseInfo,params):
@@ -110,3 +116,14 @@ class SQLTranslateTemporal(SQLTranslateAggregate):
             self.groupByCols.append(dateCol)
         return super().groupBy()
 
+
+
+def run(params):
+    dbInfo = getDBObj()
+    if('dateRange' in params):
+        SQLTran = SQLTranslateTemporal(dbInfo,params)
+    elif('aggregate' in params and len(params['aggregate'])):
+        SQLTran = SQLTranslateAggregate(dbInfo,params)
+    else:
+        SQLTran = SQLTranslate(dbInfo,params)
+    return SQLTran
