@@ -2,15 +2,15 @@
 SQLTranslate
 ============
 
-SQL Translate stores database info and generates complex sql queries so people
-who don't know sql can access the data they need in a user friendly way.
+SQL Translate stores database info and generates complex sql queries with simple input parameters to make customized data packages accessible.
 
 Features
 --------
-- Store database info in jsons --> DatabaseInfo class will use JSON data to cache a DatabaseInfo object
-example jsons:
+- A DatabaseInfo object is created when there is a tableInfo.json file in the working directory. There may also be a dataCategories.json, which allows people to access data from categories instead of explicit column names. This DatabaseInfo object is cached and unless tableInfo.json or dataCategories.json is modified, SQLTranslate will use the cached object to general SQL queries.
 
-``tableInfo = 
+DatabaseInfo required dictionaries:
+
+tableInfo = 
 {
     'climatic':                                       
     {                                                 
@@ -52,7 +52,22 @@ dataCategories =
     'Wind':{
         'climatic': ['th','vs']
     }
-}``
+}
+
+- For internal use, SQLTranslate can be run on command line by running "python sqltranslate." The program will prompt for inputs to generate parameters to construct a SQLTranslate object – the resulting query is the return value of SQLTranslate.command().
+- For external use (in apps), the run(params) function in the sqltranslate module will cache a DatabaseInfo object and use this object to generate SQL queries which can then be used to access data from a database. 
+
+params formatting:
+
+params = 
+{
+    'categorical': True or False,
+    'categories' or 'columnList': [...],
+    'filters' (if categorical==false): {'columnName': {'type': range or equal, 'values':[lower bound, upper bound] or [list of values]}...} #leave empty if none,
+    'aggregate':{'columnName':aggregation method (sum, avg,med)...} #leave empty if none,
+    'aggregateBy' (if there is temporal data): year, month, or day,
+    'dateRange' (if there is temporal data): [lower bound, upper bound] #leave out if none
+}
 
 Credits
 -------
