@@ -1,4 +1,3 @@
-============
 SQLTranslate
 ============
 
@@ -10,7 +9,7 @@ Features
 
 DatabaseInfo required dictionaries:
 
-tableInfo = 
+<!-- tableInfo = 
 {
     'climatic':                                       
     {                                                 
@@ -52,7 +51,7 @@ dataCategories =
     'Wind':{
         'climatic': ['th','vs']
     }
-}
+} -->
 
 - For internal use, SQLTranslate can be run on command line by running "python sqltranslate." The program will prompt for inputs to generate parameters to construct a SQLTranslate object – the resulting query is the return value of SQLTranslate.command().
 - For external use (in apps), the run(params) function in the sqltranslate module will cache a DatabaseInfo object and use this object to generate SQL queries which can then be used to access data from a database. 
