@@ -62,15 +62,16 @@ dataCategories =
 params formatting:
 
 params = 
+```
 {
-    'categorical': True or False,
-    'categories' or 'columnList': [...],
-    'filters' (if categorical==false): {'columnName': {'type': range or equal, 'values':[lower bound, upper bound] or [list of values]}...} #leave empty if none,
-    'aggregate':{'columnName':aggregation method (sum, avg,med)...} #leave empty if none,
-    'aggregateBy' (if there is temporal data): year, month, or day,
-    'dateRange' (if there is temporal data): [lower bound, upper bound] #leave out if none
+    "categorical": True or False,
+    "categories" or "columnList": [...],
+    "filters" (if categorical==false): {'columnName': {'type': range or equal, 'values':[lower bound, upper bound] or [list of values]}...} #leave empty if none,
+    "aggregate":{'columnName':aggregation method ("sum", "avg ", "med")...} #leave empty if none,
+    "aggregateBy" (if there is temporal data): "year", "month", or "day",
+    "dateRange" (if there is temporal data): [lower bound, upper bound] #leave out if none
 }
-
+```
 Credits
 -------
 
