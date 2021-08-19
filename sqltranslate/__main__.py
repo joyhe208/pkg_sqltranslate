@@ -1,10 +1,10 @@
 import os
 from os import path
 import sys
-import DatabaseInfo
-from DatabaseInfo import *
-import sqltranslate
-from sqltranslate import *
+# import DatabaseInfo
+from .DatabaseInfo import *
+# import sqltranslate
+from .sqltranslate import *
 import json
 import pickle
 

@@ -1,9 +1,7 @@
 """Main module."""
 from itertools import repeat, combinations
-from . import DatabaseInfo
-# from DatabaseInfo import *
-import __main__
-from __main__ import *
+from .DatabaseInfo import *
+from .__main__ import *
 
 
 
