@@ -1,7 +1,7 @@
 """Main module."""
 from itertools import repeat, combinations
-import DatabaseInfo
-from DatabaseInfo import *
+from . import DatabaseInfo
+# from DatabaseInfo import *
 import __main__
 from __main__ import *
 
@@ -15,6 +15,7 @@ class SQLTranslate:
         self.selectedColumns = self.selected['columns']
         self.selectedTables = self.selected['tables']
         self.selectedColumns.extend(self.databaseInfo.getRowClassifierColumns(self.selectedTables))
+        self.selectedColumns = set(self.selectedColumns)
         self.join = self.selected['commonColumns']
         self.filters = []
         if(not self.params['categorical'] and 'filters' in self.params):
@@ -115,8 +116,6 @@ class SQLTranslateTemporal(SQLTranslateAggregate):
         else:
             self.groupByCols.append(dateCol)
         return super().groupBy()
-
-
 
 def run(params):
     dbInfo = getDBObj()

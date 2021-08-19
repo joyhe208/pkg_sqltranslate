@@ -149,11 +149,13 @@ def test_sqltranslate_tmp():
     SQLTran2 = SQLTranslateTemporal(HDDatabase, param2)
     param3 = {   'categorical':False,
     'columnList':['tmmx','tmmn','streamflow','pet'],
+    'filters':{'staid': {'type':'equal', 'values':[1,2]}},
     'aggregate':{'tmmx':'avg','tmmn':'avg','streamflow':'sum','pet':'avg'},
     'dateRange':['01-01-2004','01-01-2006'],
     'aggregateBy':'day'
     }
     SQLTran3 = SQLTranslateTemporal(HDDatabase, param3)
+    print(SQLTran3)
     param4 = {   'categorical':True,
     'categories': ['Temperature','Streamflow'],
     'aggregate':{'Temperature':'avg','Streamflow':'sum'},
