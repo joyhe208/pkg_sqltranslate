@@ -52,6 +52,7 @@ def getDBObj():
 
 
 def getParams(databaseInfo):
+    number = re.compile('\\d+')
     params = {}
     temporalColumnChoices = [column for column in databaseInfo.columnChoices if any(table in databaseInfo.temporalDataTables for table in databaseInfo.columnChoices[column])]
     temporalDataCategories = [category for category in databaseInfo.dataCategories if any(column in list(databaseInfo.dataCategories[category].values())[0] for column in temporalColumnChoices)]
@@ -79,7 +80,7 @@ def getParams(databaseInfo):
                         values = input("enter lower and upper bound of range (inclusive) separated by comma: ").strip().split(',')
                     else:
                         values = input("enter values you want " + selection + " to be equal to separated by commas ").strip().split(',')
-                    if(re.match('\d+',values[0])!=None):
+                    if(re.match(number,values[0])!=None):
                         values = [int(value) for value in values]
                     filters[selection] = {'type': 'range' if filterType=='r' else 'equal','values':values}
         
@@ -112,7 +113,7 @@ def getParams(databaseInfo):
                         values = input("enter lower and upper bound of range (inclusive) separated by comma: ").strip().split(',')
                     else:
                         values = input("enter values you want " + selection + " to be equal to separated by commas ").strip().split(',')
-                    if(re.match('\d+',values[0])!=None):
+                    if(re.match(number,values[0])!=None):
                         values = [int(value) for value in values]
                     filter[selection] = values
         if(input("choose aggregate functions for selected? (y/n)")=="y"):

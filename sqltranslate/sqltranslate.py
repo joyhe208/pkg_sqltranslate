@@ -13,7 +13,6 @@ class SQLTranslate:
         self.selectedColumns = self.selected['columns']
         self.selectedTables = self.selected['tables']
         self.selectedColumns.extend(self.databaseInfo.getRowClassifierColumns(self.selectedTables))
-        self.selectedColumns = set(self.selectedColumns)
         self.join = self.selected['commonColumns']
         self.filters = []
         if(not self.params['categorical'] and 'filters' in self.params):
@@ -29,7 +28,7 @@ class SQLTranslate:
                         self.filters.extend(list(map(lambda filt: "(" + selectedColumns[i] + "=" + "\"" + filt + "\")", currFilt['values']))) if isinstance(currFilt['values'][0],str) else self.filters.extend(list(map(lambda filt: "(" + self.selectedColumns[i] + "=" +  str(filt) + ")", currFilt['values'])))
 
     def select(self):
-        return "SELECT " + ', '.join(self.selectedColumns)
+        return "SELECT " + ', '.join(list(set(self.selectedColumns)))
     
     def fromTables(self):
         return "FROM " + ' inner join '.join(list(map(lambda t: "\"" + t.upper() + "\" as " + t, self.selectedTables)))
@@ -72,7 +71,7 @@ class SQLTranslateAggregate(SQLTranslate):
         self.selectedColumns = list(map(lambda i: self.aggregate[i].upper() + "(" + self.selectedColumns[i] + ")" if self.aggregate[i]!=None else self.selectedColumns[i],[i for i in range(len(self.selectedColumns))]))
     
     def groupBy(self):
-        return "GROUP BY " + ", ".join(self.groupByCols) 
+        return "GROUP BY " + ", ".join(list(set(self.groupByCols) ))
 
     def command(self):
         return '\n'.join(string for string in [super().command(), self.groupBy()] if len(string))
