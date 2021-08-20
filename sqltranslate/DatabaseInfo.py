@@ -78,6 +78,6 @@ class DatabaseInfo:
         return list(map(lambda table: table+"."+ self.tables[table].getRowClassifier().upper(),tables))
 
     def getDateTimeColumns(self,tables):
-        return list(map(lambda table: table+ "."+ self.tables[table].getDateCol().upper(),[t for t in self.tables if t in self.temporalDataTables]))
+        return list(map(lambda table: table+ "."+ self.tables[table].getDateCol().upper(),[t for t in self.tables if t in self.temporalDataTables and t in tables]))
     
 

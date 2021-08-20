@@ -43,8 +43,8 @@ setup(
     test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/joyhe208/pkg_sqltranslate',
-    version='0.1.2',
+    version='0.1.3',
     zip_safe=False,
     license='MIT',
-    download_url='https://github.com/joyhe208/pkg_sqltranslate/archive/refs/tags/0.1.2.tar.gz'
+    download_url='https://github.com/joyhe208/pkg_sqltranslate/archive/refs/tags/0.1.3.tar.gz'
 )

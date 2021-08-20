@@ -25,8 +25,12 @@ class SQLTranslate:
                     if(currFilt['type']=='range'):
                         self.filters.append(("(" + self.selectedColumns[i] + " BETWEEN " + "\"" + currFilt['values'][0] + "\" AND " + "\"" + currFilt['values'][1] + "\")") if isinstance(currFilt['values'][0],str) else self.filters.append("(" + self.selectedColumns[i] + " BETWEEN " +  str(currFilt['values'][0]) + " AND " + str(currFilt['values'][1]) + ")"))
                     else:
-                        self.filters.extend(list(map(lambda filt: "(" + selectedColumns[i] + "=" + "\"" + filt + "\")", currFilt['values']))) if isinstance(currFilt['values'][0],str) else self.filters.extend(list(map(lambda filt: "(" + self.selectedColumns[i] + "=" +  str(filt) + ")", currFilt['values'])))
-
+                        #self.filters.extend(list(map(lambda filt: "(" + selectedColumns[i] + "=" + "\"" + filt + "\")", currFilt['values']))) if isinstance(currFilt['values'][0],str) else self.filters.extend(list(map(lambda filt: "(" + self.selectedColumns[i] + "=" +  str(filt) + ")", currFilt['values'])))
+                        if(isinstance(currFilt['values'][0],str)):
+                            self.filters.append("(" + self.selectedColumns[i] + " IN (" + ', '.join(list(map(lambda filt: '\"' + filt + '\"',currFilt['values']))) + "))")
+                        else:
+                            self.filters.append("(" + self.selectedColumns[i] + " IN (" + ', '.join(str(val) for val in currFilt['values']) + "))")
+                            
     def select(self):
         return "SELECT " + ', '.join(list(set(self.selectedColumns)))
     
@@ -71,7 +75,9 @@ class SQLTranslateAggregate(SQLTranslate):
         self.selectedColumns = list(map(lambda i: self.aggregate[i].upper() + "(" + self.selectedColumns[i] + ")" if self.aggregate[i]!=None else self.selectedColumns[i],[i for i in range(len(self.selectedColumns))]))
     
     def groupBy(self):
-        return "GROUP BY " + ", ".join(list(set(self.groupByCols) ))
+        if(len(self.params['aggregate'])):
+            return "GROUP BY " + ", ".join(list(set(self.groupByCols)))
+        return ""
 
     def command(self):
         return '\n'.join(string for string in [super().command(), self.groupBy()] if len(string))
@@ -110,7 +116,7 @@ class SQLTranslateTemporal(SQLTranslateAggregate):
             self.groupByCols.extend(["MONTH("+dateCol+")","YEAR("+dateCol+")"])
         elif(self.aggregateBy=='year'):
             self.groupByCols.append("YEAR("+dateCol+")")
-        else:
+        elif(len(self.params['aggregate'])):
             self.groupByCols.append(dateCol)
         return super().groupBy()
 
