@@ -12,24 +12,23 @@ class SQLTranslate:
         self.selected = databaseInfo.getColumnsAndTablesFromCategories(self.params['categories']) if self.params['categorical'] else databaseInfo.getColumnsAndTablesFromColumnList(self.params['columnList'])
         self.selectedColumns = self.selected['columns']
         self.selectedTables = self.selected['tables']
-        self.selectedColumns.extend(self.databaseInfo.getRowClassifierColumns(self.selectedTables))
         self.join = self.selected['commonColumns']
         self.filters = []
-        if(not self.params['categorical'] and 'filters' in self.params):
-            colSet = set()
-            for i in range(len(self.selectedColumns)):
-                currCol = self.selectedColumns[i].split('.')[1].lower()
-                if(currCol in self.params['filters'] and not currCol in colSet):
-                    colSet.add(currCol)
-                    currFilt = self.params['filters'][currCol]
-                    if(currFilt['type']=='range'):
-                        self.filters.append(("(" + self.selectedColumns[i] + " BETWEEN " + "\"" + currFilt['values'][0] + "\" AND " + "\"" + currFilt['values'][1] + "\")") if isinstance(currFilt['values'][0],str) else self.filters.append("(" + self.selectedColumns[i] + " BETWEEN " +  str(currFilt['values'][0]) + " AND " + str(currFilt['values'][1]) + ")"))
+        if('filters' in self.params):
+            for currFilt, info in self.params['filters'].items():
+                tables  = self.databaseInfo.columnChoices[currFilt]
+                try:
+                    table = next(x for x in tables if x in self.selectedTables)
+                    if(info['type']=='range'):
+                        self.filters.append(("(" + table+"."+currFilt.upper() + " BETWEEN \"" + info['values'][0] + "\" AND " + "\"" + info['values'][1] + "\")") if isinstance(info['values'][0],str) else self.filters.append("(" + table + "." + currFilt.upper()+ " BETWEEN " +  str(info['values'][0]) + " AND " + str(info['values'][1]) + ")"))
                     else:
-                        #self.filters.extend(list(map(lambda filt: "(" + selectedColumns[i] + "=" + "\"" + filt + "\")", currFilt['values']))) if isinstance(currFilt['values'][0],str) else self.filters.extend(list(map(lambda filt: "(" + self.selectedColumns[i] + "=" +  str(filt) + ")", currFilt['values'])))
-                        if(isinstance(currFilt['values'][0],str)):
-                            self.filters.append("(" + self.selectedColumns[i] + " IN (" + ', '.join(list(map(lambda filt: '\"' + filt + '\"',currFilt['values']))) + "))")
+                        if(isinstance(info['values'][0],str)):
+                            self.filters.append("(" + table + "." + currFilt.upper() + " IN (" + ', '.join(list(map(lambda filt: '\"' + filt + '\"',info['values']))) + "))")
                         else:
-                            self.filters.append("(" + self.selectedColumns[i] + " IN (" + ', '.join(str(val) for val in currFilt['values']) + "))")
+                            self.filters.append("(" + table + "." + currFilt.upper() + " IN (" + ', '.join(str(val) for val in info['values']) + "))")
+                except StopIteration:
+                    print('invalid filter')
+                
                             
     def select(self):
         return "SELECT " + ', '.join(list(set(self.selectedColumns)))

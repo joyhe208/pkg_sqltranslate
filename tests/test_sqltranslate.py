@@ -114,6 +114,7 @@ def test_sqltranslate():
         'columnList':['lat','lng']
     }
     SQLTran3 = SQLTranslate(HDDatabase,param3)
+    #print(SQLTran3)
 
 def test_sqltranslate_agg():
     global HDDatabase
@@ -154,8 +155,9 @@ def test_sqltranslate_tmp():
     'dateRange':['01-01-2004','01-01-2006'],
     'aggregateBy':'day'
     }
+    
     SQLTran3 = SQLTranslateTemporal(HDDatabase, param3)
-    print(SQLTran3)
+    #print(SQLTran3)
     param4 = {   'categorical':True,
     'categories': ['Temperature','Streamflow'],
     'aggregate':{'Temperature':'avg','Streamflow':'sum'},
@@ -163,3 +165,22 @@ def test_sqltranslate_tmp():
     'aggregateBy':'year'
     }
     SQLTran4 = SQLTranslateTemporal(HDDatabase, param4)
+  
+    param5 = {   'categorical':False,
+    'columnList':['streamflow'],
+    'filters':{'staid': {'type':'equal', 'values':[1,2]}},
+    'aggregate':{'streamflow':'sum'},
+    'dateRange':[],
+    'aggregateBy':'month'
+    }
+    SQLTran5 = SQLTranslateTemporal(HDDatabase, param5)
+    print(SQLTran5)
+    param6 = {   'categorical':False,
+    'columnList':['tmmx'],
+    'filters':{'staid': {'type':'equal', 'values':[1,2]}},
+    'aggregate':{'tmmx':'avg'},
+    'dateRange':['01-01-2004','01-01-2006'],
+    'aggregateBy':'month'
+    }
+    SQLTran6 = SQLTranslateTemporal(HDDatabase, param6)
+    #print(SQLTran6)
