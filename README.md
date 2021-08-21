@@ -2,7 +2,7 @@ SQLTranslate
 ============
 
 SQL Translate stores database info and generates complex sql queries with simple input parameters to make customized data packages accessible.
-
+Example Usage: https://github.com/joyhe208/water-data-retrieval-prototype in the GetData module
 Features
 --------
 - A DatabaseInfo object is created when there is a tableInfo.json file in the working directory. There may also be a dataCategories.json, which allows people to access data from categories instead of explicit column names. This DatabaseInfo object is cached and unless tableInfo.json or dataCategories.json is modified, SQLTranslate will use the cached object to general SQL queries.
