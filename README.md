@@ -2,6 +2,7 @@ SQLTranslate
 ============
 
 SQL Translate stores database info and generates complex sql queries with simple input parameters to make customized data packages accessible.
+<br>
 Example Usage: https://github.com/joyhe208/water-data-retrieval-prototype in the GetData module
 Features
 --------
