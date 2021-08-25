@@ -8,6 +8,7 @@ Motivation
 Data communication often involves visualization and visualization layouts require data structures more complex than a raw table from a database. Manually grouping and aggregating table data is often tedious and inefficient. It would be much easier if data received from a database/static csv were already formatted in an appropriate way to be used in a layout. SQLTranslate aims to solve this problem, using database info and input parameters to formulate SQL commands that can be used to query a database and get nicely formatted data without having to prepare it for use once it's received. Best if used in a database-server interface.
 
 Example Usage: https://github.com/joyhe208/water-data-retrieval-prototype in the GetData module
+
 Features
 --------
 - A DatabaseInfo object is created when there is a tableInfo.json file in the working directory. There may also be a dataCategories.json, which allows people to access data from categories instead of explicit column names. This DatabaseInfo object is cached and unless tableInfo.json or dataCategories.json is modified, SQLTranslate will use the cached object to general SQL queries.
